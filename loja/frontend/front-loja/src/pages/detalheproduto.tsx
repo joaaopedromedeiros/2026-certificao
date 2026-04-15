@@ -66,7 +66,7 @@ export default function ProdutoDetalhe() {
         <div className="bg-gray-100 rounded-lg flex items-center justify-center h-80">
           {produto.imagem ? (
             <img
-              src={`http://127.0.0.1:8000${produto.imagem}`}
+              src={`https://2026-certificao-six.vercel.app${produto.imagem}`}
               alt={produto.nome}
               className="object-cover h-full w-full rounded-lg"
             />

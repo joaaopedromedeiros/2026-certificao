@@ -35,25 +35,41 @@ export default function ProdutoCard({ produto }: Props) {
   };
 
   return (
-    <div className="border p-4 rounded-xl shadow">
-      <img src={`http://127.0.0.1:8000${produto.imagem}`} alt={produto.nome} />
-      <h2 className="text-lg font-bold">{produto.nome}</h2>
-      <p>R$ {produto.preco}</p>
-      <p>Quantidade no estoque: {produto.estoque} </p>
+    <div className="border rounded-xl shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
+      <img
+        src={`https://2026-certificao-six.vercel.app${produto.imagem}`}
+        alt={produto.nome}
+        className="w-full h-48 sm:h-56 object-cover"
+      />
 
-      <div className="flex gap-2">
-        <button
-          onClick={adicionarCarrinho}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-        >
-          Adicionar
-        </button>
-        <Link
-          to={`/produto/${produto.id}`}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-        >
-          Ver detalhes
-        </Link>
+      <div className="p-3 sm:p-4 flex flex-col gap-2 flex-1">
+        <h2 className="text-base sm:text-lg font-bold line-clamp-2">
+          {produto.nome}
+        </h2>
+
+        <p className="text-sm sm:text-base text-gray-700">
+          R$ {produto.preco}
+        </p>
+
+        <p className="text-xs sm:text-sm text-gray-500">
+          Estoque: {produto.estoque}
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-2 mt-auto">
+          <button
+            onClick={adicionarCarrinho}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+          >
+            Adicionar
+          </button>
+
+          <Link
+            to={`/produto/${produto.id}`}
+            className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded text-center w-full sm:w-auto"
+          >
+            Ver detalhes
+          </Link>
+        </div>
       </div>
     </div>
   );
