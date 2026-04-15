@@ -35,6 +35,15 @@ export default function Login() {
       >
         Login
       </button>
+      <p className="mt-4 text-sm">
+        Não possui uma conta?{" "}
+        <span
+          onClick={() => navigate("/cadastro")}
+          className="text-blue-600 cursor-pointer hover:underline"
+        >
+          Cadastre-se
+        </span>
+      </p>
     </div>
   );
 }
