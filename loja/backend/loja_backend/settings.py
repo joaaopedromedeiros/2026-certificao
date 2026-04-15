@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "corsheaders", # Permite o backend aceitar requisições de ourro domínio (frontend).
     'users',
     'loja'
+    "cloudinary", # Conexão com serviço de servir imagem
+    "cloudinary_storage", # Conexão com serviço de servir imagem
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware", # middleware corsheaders
     'ninja.compatibility.files.fix_request_files_middleware', # middleware para lidar com imagens em put/patch
-
 ]
 
 ROOT_URLCONF = 'loja_backend.urls'
@@ -140,6 +141,14 @@ CORS_ALLOWED_ORIGINS = [
     "https://2026-certificao-six.vercel.app"
 ]
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage" # Definindo cloudinary como storage
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+# MEDIA_URL = "/media/" (comentado após adicionar serviço de servir imagem)
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
