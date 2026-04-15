@@ -1,4 +1,5 @@
 from ninja import Schema
+from typing import Optional
 
 # PRODUTO (schem)
 class ProdutoOut(Schema):
@@ -7,7 +8,7 @@ class ProdutoOut(Schema):
     descricao: str
     preco: float
     estoque: int
-    imagem: str
+    imagem: Optional[str] = None
 
 # Schmas do carrinho
 

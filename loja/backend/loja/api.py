@@ -2,9 +2,14 @@ from ninja import Router
 from .models import Produto, Carrinho, ItemCarrinho
 from .schemas import ProdutoOut, CarrinhoOut, ItemCarrinhoOut, AddCarrinhoIn
 from users.auth import JWTAuth
+from ninja import File, Form
+from ninja.files import UploadedFile
+from ninja.errors import HttpError
 
 router = Router(tags=["Loja"])
 
+
+# ENDPOINTS DE CRUD DOS PRODUTOS
 
 # LISTAR PRODUTOS
 @router.get("/produtos", response=list[ProdutoOut])
@@ -16,16 +21,74 @@ def listar_produtos(request):
 # DETALHE PRODUTO
 @router.get("/produtos/{produto_id}", response=ProdutoOut)
 def detalhe_produto(request, produto_id: int):
-    return Produto.objects.get(id=produto_id)
+    produto = Produto.objects.get(id=produto_id)
+    return produto
 
+
+@router.post("/produtos", auth=JWTAuth(), response=ProdutoOut)
+def criar_produto(
+    request,
+    nome: str = Form(...),
+    descricao: str = Form(...),
+    preco: float = Form(...),
+    estoque: int = Form(...),
+    imagem: UploadedFile = File(...)
+):
+    user = request.auth
+
+    produto = Produto.objects.create(
+        nome=nome,
+        descricao=descricao,
+        preco=preco,
+        estoque=estoque,
+        imagem=imagem
+    )
+
+    return produto
+
+
+@router.patch("/produtos/{produto_id}", auth=JWTAuth(), response=ProdutoOut)
+def editar_produto(
+    request,
+    produto_id: int,
+    nome: str = Form(None),
+    descricao: str = Form(None),
+    preco: float = Form(None),
+    estoque: int = Form(None),
+    imagem: UploadedFile = File(None),
+):
+    user = request.auth
+
+    try:
+        produto = Produto.objects.get(id=produto_id)
+    except Produto.DoesNotExist:
+        raise HttpError(404, "Produto não encontrado")
+
+    # atualiza apenas o que foi enviado
+    if nome is not None:
+        produto.nome = nome
+
+    if descricao is not None:
+        produto.descricao = descricao
+
+    if preco is not None:
+        produto.preco = preco
+
+    if estoque is not None:
+        produto.estoque = estoque
+
+    if imagem is not None:
+        produto.imagem = imagem
+
+    produto.save()
+
+    return produto
 
 
 # PEGAR OU CRIAR CARRINHO
 def get_or_create_carrinho(user):
     carrinho, _ = Carrinho.objects.get_or_create(usuario=user)
     return carrinho
-
-
 
 # VER CARRINHO
 @router.get("/carrinho", auth=JWTAuth(), response=CarrinhoOut)
@@ -52,10 +115,8 @@ def ver_carrinho(request):
         "total": total
     }
 
-
-
 # ADICIONAR AO CARRINHO
-@router.post("/carrinho/add", auth=JWTAuth())
+@router.post("/carrinho/add", auth=JWTAuth(), response={200: dict, 400: dict, 404: dict})
 def adicionar_carrinho(request, payload: AddCarrinhoIn):
     user = request.auth
     carrinho = get_or_create_carrinho(user)
@@ -103,27 +164,7 @@ def remover_item(request, produto_id: int):
     return {"detail": "Item removido com sucesso"}
 
 
-# ENDPOINTS DE CRUD DOS PRODUTOS
-
-@router.post("/produtos", auth=JWTAuth(), response=ProdutoOut)
-def criar_produto(request, payload: ProdutoOut):
-    user = request.auth
-
-    # (opcional) só admin pode criar
-    # if not user.is_staff:
-    #     return 403, {"detail": "Sem permissão"}
-
-    produto = Produto.objects.create(
-        nome=payload.nome,
-        descricao=payload.descricao,
-        preco=payload.preco,
-        estoque=payload.estoque,
-        imagem=payload.imagem
-    )
-
-    return produto
-
-@router.put("/carrinho/update", auth=JWTAuth())
+@router.put("/carrinho/update", auth=JWTAuth(), response={200: dict, 400: dict, 404: dict})
 def atualizar_item(request, payload: AddCarrinhoIn):
     user = request.auth
     carrinho = get_or_create_carrinho(user)
@@ -149,3 +190,4 @@ def atualizar_item(request, payload: AddCarrinhoIn):
     item.save()
 
     return {"detail": "Quantidade atualizada"}
+
