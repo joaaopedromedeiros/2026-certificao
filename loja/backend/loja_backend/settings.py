@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,13 +145,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://2026-certificao-six.vercel.app"
 ]
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage" # Definindo cloudinary como storage
+cloudinary.config( 
+  	cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+  	api_key = os.getenv("CLOUDINARY_API_KEY"),
+  	api_secret = os.getenv("CLOUDINARY_API_SECRET")
+)
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
-}
 
 # MEDIA_URL = "/media/" (comentado após adicionar serviço de servir imagem)
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
