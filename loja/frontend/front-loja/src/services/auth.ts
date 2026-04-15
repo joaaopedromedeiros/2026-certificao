@@ -7,7 +7,7 @@ export async function cadastro(
   password: string,
   nome_completo: string
 ) {
-  const res = await api.post("/cadastro", {
+  const res = await api.post("/users/cadastro", {
     username,
     email,
     password,
