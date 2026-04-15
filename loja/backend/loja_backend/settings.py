@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     "corsheaders", # Permite o backend aceitar requisições de ourro domínio (frontend).
     'users',
     'loja'
-    "cloudinary", # Conexão com serviço de servir imagem
-    "cloudinary_storage", # Conexão com serviço de servir imagem
 ]
 
 MIDDLEWARE = [
@@ -145,13 +143,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://2026-certificao-six.vercel.app"
 ]
 
-cloudinary.config( 
-  	cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
-  	api_key = os.getenv("CLOUDINARY_API_KEY"),
-  	api_secret = os.getenv("CLOUDINARY_API_SECRET")
-)
 
-
-# MEDIA_URL = "/media/" (comentado após adicionar serviço de servir imagem)
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/" (comentado após adicionar serviço de servir imagem)
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
