@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
-import Carrinho from "../pages/Carrinho";
+import Home from "../pages/home";
+import Carrinho from "../pages/carrinho";
 import Login from "../pages/login";
 import PrivateRoute from "./privateroutes";
 import ProdutoDetalhe from "../pages/detalheproduto";
