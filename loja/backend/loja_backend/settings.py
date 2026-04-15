@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -81,21 +81,14 @@ WSGI_APPLICATION = 'loja_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if os.getenv("DEBUG", "True") == "True":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=os.environ.get("DATABASE_URL"),
-            conn_max_age=600,
-            ssl_require=True
-        )
-    }
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 
 # Password validation
@@ -141,13 +134,11 @@ AUTH_USER_MODEL = 'users.Usuario'
 
 CORS_ALLOW_CREDENTIALS = True
 
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
-else:
-    CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
-        "https://2026-certificao-six.vercel.app"
-    ]
+
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://2026-certificao-six.vercel.app"
+]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
