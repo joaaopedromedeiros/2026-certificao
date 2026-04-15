@@ -1,0 +1,6 @@
+django
+django-ninja
+psycopg[binary]
+dj-database-url
+django-cors-headers
+pillow
