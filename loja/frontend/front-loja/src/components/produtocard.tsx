@@ -37,7 +37,7 @@ export default function ProdutoCard({ produto }: Props) {
   return (
     <div className="border rounded-xl shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
       <img
-        src={`https://2026-certificao-six.vercel.app${produto.imagem}`}
+        src={produto.imagem}
         alt={produto.nome}
         className="w-full h-48 sm:h-56 object-cover"
       />
