@@ -152,6 +152,10 @@ STORAGES = {
             "region_name": "auto",
         },
     },
+
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
 }
 
 MEDIA_URL = "https://pub-bf68fd1e65754281bbcb016fd1845f20.r2.dev/"
