@@ -125,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
 
 
 # Configurações adicionais
@@ -141,6 +141,20 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": "lojadbminora",
+            "endpoint_url": "https://1932def56ed73f26fb32e0519ac78a1e.r2.cloudflarestorage.com",
+            "access_key": os.getenv("R2_ACCESS_KEY"),
+            "secret_key": os.getenv("R2_SECRET_KEY"),
+            "region_name": "auto",
+        },
+    },
+}
+
+MEDIA_URL = "https://pub-bf68fd1e65754281bbcb016fd1845f20.r2.dev/"
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
