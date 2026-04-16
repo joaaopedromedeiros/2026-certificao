@@ -2,10 +2,10 @@ import api from "./api";
 
 
 export async function cadastro(
-  username: string,
-  email: string,
-  password: string,
-  nome_completo: string
+  username: string, // TypeScript
+  email: string, // TypeScript
+  password: string, // TypeScript
+  nome_completo: string // TypeScript
 ) {
   const res = await api.post("/users/cadastro", {
     username,
